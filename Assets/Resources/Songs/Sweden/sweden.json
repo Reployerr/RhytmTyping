@@ -1,0 +1,11 @@
+{
+    "songName": "Sweden",
+    "artist": "C418",
+    "audioFile": "Sweden",
+    "bpm": 0,
+    "notes": [
+        { "time": 1.5 },
+        { "time": 2.0 },
+        { "time": 2.5 }
+    ]
+}
