@@ -44,7 +44,7 @@ public class SongSelection : MonoBehaviour
         if (coverSprite != null)
         {
             coverImage.sprite = coverSprite;
-            coverImage.SetNativeSize();
+            //coverImage.SetNativeSize();
         }
 
         AudioClip clip = Resources.Load<AudioClip>($"Songs/{songFolder}/{songData.audioFile}");

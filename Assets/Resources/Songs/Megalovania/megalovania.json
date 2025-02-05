@@ -3,6 +3,7 @@
     "artist": "Toby Fox",
     "audioFile": "megalovania",
     "bpm": 0,
+    "coverImage": "cover",
     "notes": [
         { "time": 1.5 },
         { "time": 2.0 },
