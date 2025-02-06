@@ -23,13 +23,16 @@ public class RhythmMapEditor : MonoBehaviour
 
     private List<float> notes = new List<float>();
     private bool isRecording = false;
+    private float timelineScrollSpeed = 100f;
+
+    private float lastNotePosition = 0f; // Переменная для отслеживания позиции предыдущей ноты
+    [SerializeField] private float noteSpacing = 1f; // Расстояние между нотами
 
     private void Start()
     {
         playButton.onClick.AddListener(PlayPauseSong);
         saveButton.onClick.AddListener(SaveNotes);
         timelineSlider.onValueChanged.AddListener(UpdateTimeline);
-
     }
 
     private void Update()
@@ -39,6 +42,7 @@ public class RhythmMapEditor : MonoBehaviour
         if (audioSource.isPlaying)
         {
             timelineSlider.value = audioSource.time / audioSource.clip.length;
+            ScrollTimeline();
         }
 
         if (isRecording && Input.anyKeyDown)
@@ -48,8 +52,6 @@ public class RhythmMapEditor : MonoBehaviour
             Debug.Log($"Нота добавлена: {noteTime} мс");
             SpawnNoteMarker(noteTime);
             SpawnNote(noteTime);
-            
-
         }
     }
 
@@ -67,7 +69,6 @@ public class RhythmMapEditor : MonoBehaviour
         }
     }
 
-
     public void StopSong()
     {
         audioSource.Stop();
@@ -81,8 +82,17 @@ public class RhythmMapEditor : MonoBehaviour
 
     private void SpawnNote(float time)
     {
+        // Если это не первая нота, добавляем смещение от предыдущей
+        float spawnPosition = lastNotePosition + noteSpacing;
+
         GameObject note = Instantiate(notePrefab, notesContainer);
         note.GetComponentInChildren<Text>().text = time.ToString("F0") + " ms";
+
+        // Сохраняем текущую позицию ноты для следующей
+        lastNotePosition = spawnPosition;
+
+        // Примените spawnPosition, если нужно, для позиционирования ноты в пространстве
+        note.GetComponent<RectTransform>().anchoredPosition = new Vector2(spawnPosition, note.GetComponent<RectTransform>().anchoredPosition.y);
     }
 
     public void SaveNotes()
@@ -104,9 +114,15 @@ public class RhythmMapEditor : MonoBehaviour
         noteMarker.GetComponent<RectTransform>().anchoredPosition = new Vector2(positionX, 0);
     }
 
-
+    private void ScrollTimeline()
+    {
+        float timelineWidth = noteTimeline.rect.width;
+        float songDurationMs = audioSource.clip.length * 1000;
+        float normalizedTime = audioSource.time * 1000 / songDurationMs;
+        float newX = Mathf.Lerp(0, timelineWidth, normalizedTime);
+        noteContainer.anchoredPosition = new Vector2(-newX, noteContainer.anchoredPosition.y);
+    }
 }
-
 
 [System.Serializable]
 public class NoteData
