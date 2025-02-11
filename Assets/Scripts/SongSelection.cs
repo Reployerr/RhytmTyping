@@ -1,16 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class SongSelection : MonoBehaviour
 {
-    public GameObject songButtonPrefab;
-    public Transform songListContainer;
-    public AudioSource previewAudioSource;
-    public Image coverImage;
-    public Button startGameButton;
+
+    [SerializeField] private PlayMap _game;
+    [SerializeField] private GameObject songButtonPrefab;
+    [SerializeField] private Transform songListContainer;
+    [SerializeField] private AudioSource previewAudioSource;
+    [SerializeField] private Image coverImage;
+    [SerializeField] private Button startGameButton;
 
     private string selectedSongFolder = "";
+    private SongData _songData;
 
     private void Start()
     {
@@ -39,6 +43,7 @@ public class SongSelection : MonoBehaviour
     private void SelectSong(string songFolder, SongData songData, GameObject button)
     {
         selectedSongFolder = songFolder;
+        _songData = songData;
 
         Sprite coverSprite = Resources.Load<Sprite>($"Songs/{songFolder}/{songData.coverImage}");
         if (coverSprite != null)
@@ -61,7 +66,9 @@ public class SongSelection : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(selectedSongFolder))
         {
+            previewAudioSource.Stop();
             Debug.Log($"Начинаем игру с картой: {selectedSongFolder}");
+            _game.InitializeMap(selectedSongFolder, _songData);
         }
     }
 }
@@ -73,4 +80,11 @@ public class SongData
     public string artist;
     public string audioFile;
     public string coverImage;
+    public List<NotesData> notes;
+}
+
+[System.Serializable]
+public class NotesData
+{
+    public float time; // Время нажатия на ноту
 }
