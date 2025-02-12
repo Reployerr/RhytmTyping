@@ -6,6 +6,10 @@ public class PlayMap : MonoBehaviour
 {
 	[SerializeField] private float _delay;
 	[SerializeField] private AudioSource _audioSource;
+	[SerializeField] private GameObject notePrefab;
+	[SerializeField] private Transform spawnPoint;
+	[SerializeField] private Transform targetPosition; // Целевая точка для нот
+	[SerializeField] private float noteTravelTime = 2.0f; // Время, за которое нота проходит путь
 
 	private string _selectedMap = "";
 	private AudioClip _mapSong;
@@ -31,13 +35,30 @@ public class PlayMap : MonoBehaviour
 		_audioSource.clip = _mapSong;
 		_audioSource.Play();
 
+		StartCoroutine(SpawnNotes());
+	}
+
+	private IEnumerator SpawnNotes()
+	{
 		foreach (var note in _notes)
 		{
-			Debug.Log($"Нота появится в {note.time} секундах");
+			float spawnTime = note.time - noteTravelTime; // Момент, когда нота должна появиться
+			if (spawnTime < 0) spawnTime = 0; // Защита от появления "в прошлом"
+
+			yield return new WaitForSeconds(spawnTime);
+
+			Debug.Log($"Спавним ноту за {noteTravelTime} секунд до момента {note.time}");
+
+			GameObject spawnedNote = Instantiate(notePrefab, spawnPoint);
+			NoteMover mover = spawnedNote.GetComponent<NoteMover>();
+			if (mover != null)
+			{
+				mover.Initialize(targetPosition.position, note.time - Time.timeSinceLevelLoad);
+			}
 		}
 	}
 
-	 IEnumerator SongStartDelay(float delay)
+	IEnumerator SongStartDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         StartMap();
