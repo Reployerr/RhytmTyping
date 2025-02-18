@@ -2,22 +2,22 @@
     "songName": "Sweden",
     "artist": "C418",
     "audioFile": "Sweden",
-    "bpm": 0,
+    "bpm": 88.002,
     "coverImage": "cover",
     "notes": [
         { "time": 0.0 },
-        { "time": 1.19 },
+        { "time": 1.22 },
         { "time": 2.72 },
         { "time": 4.09 },
-        { "time": 5.45 },
+        { "time": 5.48 },
         { "time": 8.18 },
-        { "time": 10.90 },
-        { "time": 12.27 },
-        { "time": 13.80 },
-        { "time": 15.00 },
-        { "time": 16.36 },
-        { "time": 17.72 },
-        { "time": 19.09 }
+        { "time": 10.96 },
+        { "time": 12.25 },
+        { "time": 13.68 },
+        { "time": 15.02 },
+        { "time": 16.33 },
+        { "time": 17.75 },
+        { "time": 19.13 }
 
     ]
 }

@@ -32,10 +32,14 @@ public class MusicNote : MonoBehaviour
 	{
 		transform.position = new Vector2(startX + (endX - startX) * (1f - (beat - playmap.songposition / playmap.secondsPerBeat) / playmap.BeatsShownOnScreen), transform.position.y);
 
-		// Remove itself when out of the screen (remove line).
 		if (transform.position.x > removeLineX)
 		{
-			Destroy(gameObject);
+			DestroyNote();
 		}
+	}
+
+	public void DestroyNote()
+	{
+		Destroy(gameObject);
 	}
 }

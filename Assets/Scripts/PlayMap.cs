@@ -24,7 +24,7 @@ public class PlayMap : MonoBehaviour
 
 	public float secondsPerBeat;
 	public float BeatsShownOnScreen = 4f;
-	private Queue<MusicNote> notesOnScreen;
+	public Queue<MusicNote> notesOnScreen;
 
 	public float[] track;
 
@@ -57,16 +57,12 @@ public class PlayMap : MonoBehaviour
 		{
 			Debug.Log("kek");
 
-			// Instantiate a new music note. (Search "Object Pooling" for more information if you wish to minimize the delay when instantiating game objects.)
-			// We don't care about the position and rotation because we will set them later in MusicNote.Initialize(...).
 			MusicNote musicNote = ((GameObject)Instantiate(musicNotePrefab, Vector2.zero, Quaternion.identity)).GetComponent<MusicNote>();
 
 			musicNote.Initialize(this, startPosX, finishPosX, removeLine, posY, track[indexOfNextNote]);
 
-			// The note is push into the queue for reference.
 			notesOnScreen.Enqueue(musicNote);
 
-			// Update the next index.
 			indexOfNextNote++;
 		}
 
@@ -78,8 +74,10 @@ public class PlayMap : MonoBehaviour
 			{
 
 				notesOnScreen.Dequeue();
+				Debug.Log("Miss!");
 
 			}
+
 		}
 
 	}
@@ -94,26 +92,23 @@ public class PlayMap : MonoBehaviour
 
 		if (notesOnScreen.Count > 0)
 		{
-			// Get the front note.
 			MusicNote frontNote = notesOnScreen.Peek();
 
-			// Distance from the note to the finish line.
 			float offset = Mathf.Abs(frontNote.gameObject.transform.position.x - finishPosX);
 
-			//hit logic
-			///
-			/*
-			 * if (offset <= tolerationOffset) 
-			{
-				// Change color to green to indicate a "HIT".
-				frontNote.ChangeColor(true);
 
-				statusText.text = "HIT!";
-				
-				// Remove the reference. (Now the next note moves to the front of the queue.)
+			if (offset <= tolerationOffset)
+			{
+				Debug.Log("HIT!");
 				notesOnScreen.Dequeue();
+				frontNote.DestroyNote();
 			}
-			 */
+
+			else
+			{
+				Debug.Log("Miss");
+			}
+
 		}
 	}
 	public void InitializeMap(string map, SongData songData)
@@ -125,6 +120,8 @@ public class PlayMap : MonoBehaviour
 		_notes = _songData.notes;
 		_mapSong = Resources.Load<AudioClip>($"Songs/{_selectedMap}/{_songData.audioFile}");
 
+		_audioSource.clip = _mapSong;
+
 		// ѕреобразуем список нот в массив времени (float)
 		track = _notes.ConvertAll(note => note.time).ToArray();
 	}
@@ -132,11 +129,7 @@ public class PlayMap : MonoBehaviour
 
 	private void StartMap()
 	{
-		songStarted = true; 
-
 		dsptimesong = (float)AudioSettings.dspTime;
-
-		_audioSource.clip = _mapSong;
 		_audioSource.Play();
 
 		foreach (var note in _notes)
