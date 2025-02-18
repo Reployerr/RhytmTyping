@@ -3,6 +3,8 @@
     "artist": "C418",
     "audioFile": "Sweden",
     "bpm": 88.002,
+    "offset": 1,
+    "nps": 1,
     "coverImage": "cover",
     "notes": [
         { "time": 0.0 },

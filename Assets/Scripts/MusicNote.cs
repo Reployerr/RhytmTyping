@@ -11,12 +11,6 @@ public class MusicNote : MonoBehaviour
 	public float removeLineX;
 	public float beat;
 
-	private void Start()
-	{
-
-
-	}
-
 	public void Initialize(PlayMap playmap, float startX, float endX, float removeLineX, float posY, float beat)
 	{
 		this.playmap = playmap;

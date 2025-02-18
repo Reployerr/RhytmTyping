@@ -7,6 +7,7 @@ public class PlayMap : MonoBehaviour
 {
 	[SerializeField] private float _delay;
 	[SerializeField] private AudioSource _audioSource;
+	[SerializeField] private AudioSource hitSound;
 	[SerializeField] private GameObject musicNotePrefab;
 
 	private string _selectedMap = "";
@@ -100,6 +101,7 @@ public class PlayMap : MonoBehaviour
 			if (offset <= tolerationOffset)
 			{
 				Debug.Log("HIT!");
+				hitSound.Play();
 				notesOnScreen.Dequeue();
 				frontNote.DestroyNote();
 			}

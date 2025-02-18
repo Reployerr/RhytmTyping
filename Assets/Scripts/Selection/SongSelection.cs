@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class SongSelection : MonoBehaviour
 {
-
     [SerializeField] private PlayMap _game;
     [SerializeField] private GameObject songButtonPrefab;
     [SerializeField] private Transform songListContainer;
@@ -16,11 +15,14 @@ public class SongSelection : MonoBehaviour
     private string selectedSongFolder = "";
     private SongData _songData;
 
+    SelectionUI_View UI;
+
     private void Start()
     {
         LoadSongs();
         startGameButton.interactable = false;
     }
+
 
     private void LoadSongs()
     {
@@ -38,6 +40,8 @@ public class SongSelection : MonoBehaviour
             button.GetComponentInChildren<TextMeshProUGUI>().text = $"{songData.artist} - {songData.songName}";
             button.GetComponent<Button>().onClick.AddListener(() => SelectSong(jsonFile.name, songData, button));
         }
+
+        
     }
 
     private void SelectSong(string songFolder, SongData songData, GameObject button)
@@ -49,14 +53,13 @@ public class SongSelection : MonoBehaviour
         if (coverSprite != null)
         {
             coverImage.sprite = coverSprite;
-            //coverImage.SetNativeSize();
+            UI.ChangePreviewBackground(coverImage);
         }
 
         AudioClip clip = Resources.Load<AudioClip>($"Songs/{songFolder}/{songData.audioFile}");
         if (clip != null)
         {
-            previewAudioSource.clip = clip;
-            previewAudioSource.Play();
+            UI.ChangePreviewAudio(clip);
         }
 
         startGameButton.interactable = true;
@@ -71,6 +74,8 @@ public class SongSelection : MonoBehaviour
             _game.InitializeMap(selectedSongFolder, _songData);
         }
     }
+
+	
 }
 
 [System.Serializable]
