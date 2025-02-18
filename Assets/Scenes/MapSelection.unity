@@ -507,7 +507,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 32112f6f245ed664b9e122a614d164c4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8a8366c3a893f2f46b60a52d5a0c089c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.285
   m_Pitch: 1
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7812091499041340677}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999514
+  m_Size: 0.9999989
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1349,7 +1349,7 @@ GameObject:
   - component: {fileID: 635302631053191574}
   - component: {fileID: 876696347700572893}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: SongListContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1383,6 +1383,7 @@ GameObject:
   - component: {fileID: 8074274133305646638}
   - component: {fileID: 7651021423633853082}
   - component: {fileID: 7936843801611574402}
+  - component: {fileID: 8074274133305646639}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Untagged
@@ -1642,7 +1643,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2294252999023809542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,7 +1694,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "\u0418\u0413\u0420\u0410\u0422\u042C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2038,7 +2039,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: 0.0000013634573}
+  m_AnchoredPosition: {x: 0.000015258789, y: -0.000044820314}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &4862411729910574341
@@ -2116,7 +2117,7 @@ RectTransform:
   m_GameObject: {fileID: 7990872670499997326}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.9687, y: 1.9687, z: 1.9687}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6780746553297369383}
@@ -2124,7 +2125,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -837, y: -500}
+  m_AnchoredPosition: {x: -539, y: -467}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5519729708961024488
@@ -3038,11 +3039,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _game: {fileID: 7936843801611574402}
-  songButtonPrefab: {fileID: 8372065269284073282, guid: 13be964b6f297a447a81e57ad0a4b2c7, type: 3}
-  songListContainer: {fileID: 635302631053191574}
+  _selectionUI: {fileID: 8296389880760066793}
+  _playUI: {fileID: 2243633499202501096}
   previewAudioSource: {fileID: 571686891}
   coverImage: {fileID: 47519308}
   startGameButton: {fileID: 6520330306205555794}
+  UI: {fileID: 8074274133305646639}
 --- !u!224 &7706216930979306528
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3189,7 +3191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66442612cd6227543a26b69df4d9f895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delay: 3
+  songposition: 0
+  track: []
   _audioSource: {fileID: 1999866430}
   hitSound: {fileID: 884786678}
   musicNotePrefab: {fileID: 4124568982860103622, guid: bdca79be7d7943043a50c656ecdf4494, type: 3}
@@ -3201,8 +3204,6 @@ MonoBehaviour:
   songOffset: 1
   secondsPerBeat: 1
   BeatsShownOnScreen: 4
-  track: []
-  songposition: 0
 --- !u!1 &7990872670499997326
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,7 +3217,7 @@ GameObject:
   - component: {fileID: 7072425313165170698}
   - component: {fileID: 6520330306205555794}
   m_Layer: 5
-  m_Name: Button
+  m_Name: StartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3237,6 +3238,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8074274133305646639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246226562484586103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e442c9c4c562c02438282ab6b566a0ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgSprite: {fileID: 47519308}
+  startGameButton: {fileID: 6520330306205555794}
+  _songSelection: {fileID: 7651021423633853082}
+  _songListContainer: {fileID: 635302631053191574}
+  _songBtnPrefab: {fileID: 8372065269284073282, guid: 13be964b6f297a447a81e57ad0a4b2c7, type: 3}
+  _songData:
+    songName: 
+    artist: 
+    audioFile: 
+    coverImage: 
+    notes: []
 --- !u!212 &8097795892286005799
 SpriteRenderer:
   m_ObjectHideFlags: 0

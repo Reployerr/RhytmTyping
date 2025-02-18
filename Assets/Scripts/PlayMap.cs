@@ -5,10 +5,24 @@ using System;
 
 public class PlayMap : MonoBehaviour
 {
-	[SerializeField] private float _delay;
+	public float songposition;
+	public float[] track;
+
+	[Header("Basic refs")]
 	[SerializeField] private AudioSource _audioSource;
 	[SerializeField] private AudioSource hitSound;
 	[SerializeField] private GameObject musicNotePrefab;
+
+	[Header("Notes parameters")]
+	[SerializeField] private float startPosX;
+	[SerializeField] private float finishPosX;
+	[SerializeField] private float removeLine;
+	[SerializeField] private float posY;
+	[SerializeField] private float tolerationOffset;
+	[SerializeField] private float songOffset;
+	public float secondsPerBeat;
+	public float BeatsShownOnScreen = 4f;
+	private Queue<MusicNote> notesOnScreen;
 
 	private string _selectedMap = "";
 	private AudioClip _mapSong;
@@ -16,22 +30,7 @@ public class PlayMap : MonoBehaviour
 	private List<NotesData> _notes = new List<NotesData>();
 	private bool songStarted = false;
 
-	public float startPosX;
-	public float finishPosX;
-	public float removeLine;
-	public float posY;
-	public float tolerationOffset;
-	public float songOffset;
-
-	public float secondsPerBeat;
-	public float BeatsShownOnScreen = 4f;
-	public Queue<MusicNote> notesOnScreen;
-
-	public float[] track;
-
 	private float dsptimesong;
-	public float songposition;
-
 	private int indexOfNextNote;
 
 	private void Start()
@@ -73,10 +72,8 @@ public class PlayMap : MonoBehaviour
 
 			if (currNote.transform.position.x >= finishPosX + tolerationOffset)
 			{
-
 				notesOnScreen.Dequeue();
 				Debug.Log("Miss!");
-
 			}
 
 		}
@@ -97,7 +94,6 @@ public class PlayMap : MonoBehaviour
 
 			float offset = Mathf.Abs(frontNote.gameObject.transform.position.x - finishPosX);
 
-
 			if (offset <= tolerationOffset)
 			{
 				Debug.Log("HIT!");
@@ -115,16 +111,12 @@ public class PlayMap : MonoBehaviour
 	}
 	public void InitializeMap(string map, SongData songData)
 	{
-		
-
 		_selectedMap = map;
 		_songData = songData;
 		_notes = _songData.notes;
 		_mapSong = Resources.Load<AudioClip>($"Songs/{_selectedMap}/{_songData.audioFile}");
 
 		_audioSource.clip = _mapSong;
-
-		// Преобразуем список нот в массив времени (float)
 		track = _notes.ConvertAll(note => note.time).ToArray();
 	}
 
@@ -133,11 +125,5 @@ public class PlayMap : MonoBehaviour
 	{
 		dsptimesong = (float)AudioSettings.dspTime;
 		_audioSource.Play();
-
-		foreach (var note in _notes)
-		{
-			Debug.Log($"спавним ноту {note.time}");
-		}
 	}
-
 }
