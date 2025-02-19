@@ -53,7 +53,7 @@ public class PlayMap : MonoBehaviour
 		float beatToShow = songposition / secondsPerBeat + BeatsShownOnScreen;
 
 
-		if (indexOfNextNote < track.Length && track[indexOfNextNote] < beatToShow)
+		while (indexOfNextNote < track.Length && track[indexOfNextNote] < beatToShow)
 		{
 			Debug.Log("kek");
 
@@ -125,5 +125,11 @@ public class PlayMap : MonoBehaviour
 	{
 		dsptimesong = (float)AudioSettings.dspTime;
 		_audioSource.Play();
+	}
+
+	IEnumerator Delay()
+	{
+		yield return new WaitForSeconds(2f);
+		Debug.Log("cour is worked");
 	}
 }

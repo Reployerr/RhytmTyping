@@ -925,6 +925,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 773225434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2108906258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2108906259}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2108906259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108906258}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.36, y: 1.3, z: 1.2821419}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &138247106404733899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1291,7 +1322,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7812091499041340677}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999989
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2039,7 +2070,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: -0.000044820314}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0.0000027343697}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &4862411729910574341
@@ -3201,7 +3232,7 @@ MonoBehaviour:
   removeLine: 10
   posY: 1.8
   tolerationOffset: 0.7
-  songOffset: 1
+  songOffset: 1.3
   secondsPerBeat: 1
   BeatsShownOnScreen: 4
 --- !u!1 &7990872670499997326
@@ -3567,3 +3598,4 @@ SceneRoots:
   - {fileID: 1003179702}
   - {fileID: 8074274133305646638}
   - {fileID: 773225434}
+  - {fileID: 2108906259}
