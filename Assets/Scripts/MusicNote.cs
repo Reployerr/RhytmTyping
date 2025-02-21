@@ -24,9 +24,10 @@ public class MusicNote : MonoBehaviour
 
 	 void Update()
 	{
+		//transform.position = Vector2.Lerp(startX, endX, (playmap.BeatsShownOnScreen - (beat - playmap.songposition)) / playmap.BeatsShownOnScreen);
 		transform.position = new Vector2(startX + (endX - startX) * (1f - (beat - playmap.songposition / playmap.secondsPerBeat) / playmap.BeatsShownOnScreen), transform.position.y);
 
-		if (transform.position.x > removeLineX)
+		if (transform.position.x < removeLineX)
 		{
 			DestroyNote();
 		}

@@ -7,8 +7,10 @@ public class PlayMap : MonoBehaviour
 {
 	public float songposition;
 	public float[] track;
+	
 
 	[Header("Basic refs")]
+	[SerializeField] private float startDelay = 1.3f;
 	[SerializeField] private AudioSource _audioSource;
 	[SerializeField] private AudioSource hitSound;
 	[SerializeField] private GameObject musicNotePrefab;
@@ -37,23 +39,34 @@ public class PlayMap : MonoBehaviour
 	{
 		notesOnScreen = new Queue<MusicNote>();
 		indexOfNextNote = 0;
+
+		if(songOffset > 0)
+		{
+			startDelay = songOffset;
+		}
 	}
 
 	private void Update()
 	{
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Z))
 		{
 			PlayerInputted();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			InputForStart();
 		}
 
 		if (!songStarted) return;
 
 		songposition = (float)(AudioSettings.dspTime - dsptimesong - songOffset);
+
 		float beatToShow = songposition / secondsPerBeat + BeatsShownOnScreen;
 
 
-		while (indexOfNextNote < track.Length && track[indexOfNextNote] < beatToShow)
+		if (indexOfNextNote < track.Length && track[indexOfNextNote] < beatToShow)
 		{
 			Debug.Log("kek");
 
@@ -70,10 +83,10 @@ public class PlayMap : MonoBehaviour
 		{
 			MusicNote currNote = notesOnScreen.Peek();
 
-			if (currNote.transform.position.x >= finishPosX + tolerationOffset)
+			if (currNote.transform.position.x <= finishPosX - tolerationOffset)
 			{
-				notesOnScreen.Dequeue();
 				Debug.Log("Miss!");
+				notesOnScreen.Dequeue();
 			}
 
 		}
@@ -81,12 +94,6 @@ public class PlayMap : MonoBehaviour
 	}
 	private void PlayerInputted()
 	{
-		if (!songStarted)
-		{
-			songStarted = true;
-			StartMap();
-			return;
-		}
 
 		if (notesOnScreen.Count > 0)
 		{
@@ -119,17 +126,18 @@ public class PlayMap : MonoBehaviour
 		_audioSource.clip = _mapSong;
 		track = _notes.ConvertAll(note => note.time).ToArray();
 	}
-
-
+	private void InputForStart()
+	{
+		if (!songStarted)
+		{
+			songStarted = true;
+			StartMap();
+			return;
+		}
+	}
 	private void StartMap()
 	{
 		dsptimesong = (float)AudioSettings.dspTime;
-		_audioSource.Play();
-	}
-
-	IEnumerator Delay()
-	{
-		yield return new WaitForSeconds(2f);
-		Debug.Log("cour is worked");
+		_audioSource.PlayScheduled(dsptimesong + startDelay);
 	}
 }
