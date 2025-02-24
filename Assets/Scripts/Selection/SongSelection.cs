@@ -12,8 +12,11 @@ public class SongSelection : MonoBehaviour
     [SerializeField] private Image coverImage;
     [SerializeField] private Button startGameButton;
 
+    [SerializeField] private TMP_Dropdown difficultyDropdown;
+
     private string selectedSongFolder = "";
     private SongData _songData;
+    private List<string> selectedKeys;
 
     [SerializeField] SelectionUI_View UI;
 
@@ -21,6 +24,10 @@ public class SongSelection : MonoBehaviour
     {
         LoadSongs();
         startGameButton.interactable = false;
+
+        difficultyDropdown.ClearOptions();
+        difficultyDropdown.AddOptions(new List<string> { "Easy", "Medium", "Hard", "Pro" });
+        difficultyDropdown.value = 0;
     }
     private void LoadSongs()
     {
@@ -64,11 +71,39 @@ public class SongSelection : MonoBehaviour
             previewAudioSource.Stop();
             UI.ShowHideSelectionUI(_selectionUI, _playUI);
 
+            string difficultyFile = GetDifficultyFile();
+            selectedKeys = LoadKeysFromJson(difficultyFile);
+
             Debug.Log($"playing map: {selectedSongFolder}");
-            _game.InitializeMap(selectedSongFolder, _songData);
+            _game.InitializeMap(selectedSongFolder, _songData, selectedKeys);
+            _game.InputForStart();
         }
-    }	
+    }
+
+    private string GetDifficultyFile()
+    {
+        switch (difficultyDropdown.value)
+        {
+            case 0: return "easy_keys";
+            case 1: return "medium_keys";
+            case 2: return "hard_keys";
+            case 3: return "pro_keys";
+            default: return "easy_keys";
+        }
+    }
+
+    private List<string> LoadKeysFromJson(string fileName)
+    {
+        TextAsset jsonFile = Resources.Load<TextAsset>($"Keys/{fileName}");
+        if (jsonFile != null)
+        {
+            KeysData keysData = JsonUtility.FromJson<KeysData>(jsonFile.text);
+            return keysData.keys;
+        }
+        return new List<string> { "A", "S", "D", "F" }; 
+    }
 }
+
 [System.Serializable]
 public class SongData
 {
@@ -83,4 +118,10 @@ public class SongData
 public class NotesData
 {
     public float time;
+}
+
+[System.Serializable]
+public class KeysData
+{
+    public List<string> keys;
 }

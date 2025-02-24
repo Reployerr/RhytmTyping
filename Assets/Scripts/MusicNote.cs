@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MusicNote : MonoBehaviour
 {
@@ -10,16 +11,21 @@ public class MusicNote : MonoBehaviour
 	public float endX;
 	public float removeLineX;
 	public float beat;
+	public string key;
 
-	public void Initialize(PlayMap playmap, float startX, float endX, float removeLineX, float posY, float beat)
+	[SerializeField] TMP_Text noteKeyText;
+	public void Initialize(PlayMap playmap, float startX, float endX, float removeLineX, float posY, float beat, string key)
 	{
 		this.playmap = playmap;
 		this.startX = startX;
 		this.endX = endX;
 		this.removeLineX = removeLineX;
 		this.beat = beat;
+		this.key = key;
 
 		transform.position = new Vector2(startX, posY);
+
+		noteKeyText.text = key;
 	}
 
 	 void Update()
