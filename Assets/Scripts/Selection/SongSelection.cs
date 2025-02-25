@@ -18,7 +18,8 @@ public class SongSelection : MonoBehaviour
     private SongData _songData;
     private List<string> selectedKeys;
 
-    [SerializeField] SelectionUI_View UI;
+    [SerializeField] private SelectionUI_View UI;
+    [SerializeField] private Leaderboard leaderboard;
 
     private void Start()
     {
@@ -61,6 +62,8 @@ public class SongSelection : MonoBehaviour
             previewAudioSource.clip = clip;
             previewAudioSource.Play();
         }
+
+        Leaderboard.Instance.DisplayScores(songFolder);
 
         startGameButton.interactable = true;
     }

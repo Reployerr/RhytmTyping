@@ -28,7 +28,6 @@ public class PlayMap : MonoBehaviour
 
 	private string _selectedMap = "";
 	private AudioClip _mapSong;
-	private SongData _songData;
 	private List<NotesData> _notes = new List<NotesData>();
 	private bool songStarted = false;
 
@@ -36,17 +35,21 @@ public class PlayMap : MonoBehaviour
 	private int indexOfNextNote;
 	private List<string> availableKeys;
 
+	private SongData _songData;
+	private ScoreManager _scoreManager;
+
 	private void Start()
 	{
-		notesOnScreen = new Queue<MusicNote>();
-		indexOfNextNote = 0;
+		StartCoroutine(WaitForMusicEnd());
 
+		_scoreManager = new ScoreManager();
+		notesOnScreen = new Queue<MusicNote>();
+
+		indexOfNextNote = 0;
 		if (songOffset > 0)
 		{
 			startDelay = songOffset;
 		}
-
-		
 	}
 
 	private void Update()
@@ -76,6 +79,7 @@ public class PlayMap : MonoBehaviour
 			if (offset <= tolerationOffset && pressedKey == frontNote.key)
 			{
 				Debug.Log("HIT!");
+				_scoreManager.AddScore(100);
 				hitSound.Play();
 				notesOnScreen.Dequeue();
 				frontNote.DestroyNote();
@@ -94,7 +98,7 @@ public class PlayMap : MonoBehaviour
 		_songData = songData;
 		_notes = _songData.notes;
 		_mapSong = Resources.Load<AudioClip>($"Songs/{_selectedMap}/{_songData.audioFile}");
-
+		_scoreManager.LoadScore(_selectedMap);
 		availableKeys = keys; // Загружаем список клавиш
 
 		_audioSource.clip = _mapSong;
@@ -148,4 +152,22 @@ public class PlayMap : MonoBehaviour
 
 		}
 	}
+
+	public void TestSave()
+    {
+
+		int finalScore = _scoreManager.CurrentScore; // final score
+		_scoreManager.SaveScore(_selectedMap);
+
+		Leaderboard.Instance.SaveScore(finalScore, _selectedMap); // save to leaderboard
+	}
+
+	IEnumerator WaitForMusicEnd()
+	{
+		yield return new WaitUntil(() => !_audioSource.isPlaying);
+
+
+		Debug.Log("Музыка закончилась!");
+	}
+
 }
