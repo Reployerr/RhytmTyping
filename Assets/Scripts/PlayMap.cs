@@ -156,10 +156,9 @@ public class PlayMap : MonoBehaviour
 	public void TestSave()
     {
 
-		int finalScore = _scoreManager.CurrentScore; // final score
-		_scoreManager.SaveScore(_selectedMap);
-
-		Leaderboard.Instance.SaveScore(finalScore, _selectedMap); // save to leaderboard
+		int finalScore = _scoreManager.CurrentScore;
+    _scoreManager.SaveScore(_selectedMap);
+    Leaderboard.Instance.SaveScore(finalScore, _selectedMap);
 	}
 
 	IEnumerator WaitForMusicEnd()

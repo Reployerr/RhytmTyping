@@ -103,7 +103,7 @@ public class SongSelection : MonoBehaviour
             KeysData keysData = JsonUtility.FromJson<KeysData>(jsonFile.text);
             return keysData.keys;
         }
-        return new List<string> { "A", "S", "D", "F" }; 
+        return new List<string> { "A", "S", "D", "F" };
     }
 }
 

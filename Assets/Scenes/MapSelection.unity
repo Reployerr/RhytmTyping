@@ -4062,7 +4062,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7812091499041340677}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99801636
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4751,7 +4751,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: -0.000081884165}
+  m_AnchoredPosition: {x: 0.000015258789, y: -0.00007247925}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &4862411729910574341
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   startGameButton: {fileID: 6520330306205555794}
   difficultyDropdown: {fileID: 871131714}
   UI: {fileID: 8074274133305646639}
-  leaderboard: {fileID: 0}
+  leaderboard: {fileID: 1000116479}
 --- !u!224 &7706216930979306528
 RectTransform:
   m_ObjectHideFlags: 0
