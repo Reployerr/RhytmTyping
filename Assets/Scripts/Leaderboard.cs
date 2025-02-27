@@ -18,16 +18,18 @@ public class Leaderboard : MonoBehaviour
 
     public void SaveScore(int score, string songName)
     {
-        List<int> scores = LoadScores(songName);
-        scores.Add(score);
-        scores.Sort((a, b) => b.CompareTo(a));
+        List<ScoreEntry> scores = LoadScores(songName);
+        scores.Add(new ScoreEntry { score = score, date = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") });
+
+        // Сортируем по убыванию очков
+        scores.Sort((a, b) => b.score.CompareTo(a.score));
 
         LeaderboardData data = new LeaderboardData { scores = scores };
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(GetLeaderboardFilePath(songName), json);
     }
 
-    public List<int> LoadScores(string songName)
+    public List<ScoreEntry> LoadScores(string songName)
     {
         string path = GetLeaderboardFilePath(songName);
         if (File.Exists(path))
@@ -36,7 +38,7 @@ public class Leaderboard : MonoBehaviour
             LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(json);
             return data.scores;
         }
-        return new List<int>();
+        return new List<ScoreEntry>();
     }
 
     public void DisplayScores(string songName)
@@ -46,11 +48,11 @@ public class Leaderboard : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        List<int> scores = LoadScores(songName);
-        foreach (int score in scores)
+        List<ScoreEntry> scores = LoadScores(songName);
+        foreach (ScoreEntry entry in scores)
         {
             GameObject scoreEntry = Instantiate(scorePrefab, scoresContainer);
-            scoreEntry.GetComponent<TMP_Text>().text = score.ToString();
+            scoreEntry.GetComponentInChildren<TMP_Text>().text = $"{entry.score} ({entry.date})";
         }
     }
     private string GetLeaderboardFilePath(string songName)
@@ -61,8 +63,14 @@ public class Leaderboard : MonoBehaviour
 }
 
 [System.Serializable]
+public class ScoreEntry
+{
+    public int score;
+    public string date;
+}
+
+[System.Serializable]
 public class LeaderboardData
 {
-    public List<int> scores;
-    public string date;
+    public List<ScoreEntry> scores = new List<ScoreEntry>();
 }
