@@ -32,13 +32,20 @@ public class Leaderboard : MonoBehaviour
     public List<ScoreEntry> LoadScores(string songName)
     {
         string path = GetLeaderboardFilePath(songName);
+
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             LeaderboardData data = JsonUtility.FromJson<LeaderboardData>(json);
             return data.scores;
         }
-        return new List<ScoreEntry>();
+        else
+        {
+            LeaderboardData newData = new LeaderboardData();
+            string json = JsonUtility.ToJson(newData, true);
+            File.WriteAllText(path, json);
+            return newData.scores;
+        }
     }
 
     public void DisplayScores(string songName)
