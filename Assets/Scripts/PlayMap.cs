@@ -14,6 +14,7 @@ public class PlayMap : MonoBehaviour
 	[SerializeField] private AudioSource _audioSource;
 	[SerializeField] private AudioSource hitSound;
 	[SerializeField] private GameObject musicNotePrefab;
+	[SerializeField] private ScoreUI ScoreUI;
 
 	[Header("Notes parameters")]
 	[SerializeField] private float startPosX;
@@ -41,7 +42,7 @@ public class PlayMap : MonoBehaviour
 
 	private void Start()
 	{
-		StartCoroutine(WaitForMusicEnd());
+		
 
 		_scoreManager = new ScoreManager();
 		notesOnScreen = new Queue<MusicNote>();
@@ -101,7 +102,7 @@ public class PlayMap : MonoBehaviour
 		_notes = _songData.notes;
 		_mapSong = Resources.Load<AudioClip>($"Songs/{_selectedMap}/{_songData.audioFile}");
 		_scoreManager.LoadScore(_selectedMap);
-		availableKeys = keys; // Загружаем список клавиш
+		availableKeys = keys; // loading keys list
 
 		_audioSource.clip = _mapSong;
 		track = _notes.ConvertAll(note => note.time).ToArray();
@@ -119,6 +120,7 @@ public class PlayMap : MonoBehaviour
 	{
 		dsptimesong = (float)AudioSettings.dspTime;
 		_audioSource.PlayScheduled(dsptimesong + startDelay);
+		StartCoroutine(WaitForMusicEnd());
 	}
 
 	private void SpawnNote()
@@ -158,17 +160,20 @@ public class PlayMap : MonoBehaviour
 	public void TestSave()
     {
 
-		int finalScore = _scoreManager.CurrentScore;
-    _scoreManager.SaveScore(_selectedMap);
-    Leaderboard.Instance.SaveScore(finalScore, _selectedMap);
+		
 	}
 
 	IEnumerator WaitForMusicEnd()
 	{
 		yield return new WaitUntil(() => !_audioSource.isPlaying);
 
-
 		Debug.Log("Музыка закончилась!");
+
+		int finalScore = _scoreManager.CurrentScore;
+		_scoreManager.SaveScore(_selectedMap);
+		Leaderboard.Instance.SaveScore(finalScore, _selectedMap);
+		ScoreUI.ShowFinalResult(finalScore.ToString());
+
 	}
 
 }
