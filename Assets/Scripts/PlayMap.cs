@@ -38,6 +38,7 @@ public class PlayMap : MonoBehaviour
 	private SongData _songData;
 	private ScoreManager _scoreManager;
 
+
 	private void Start()
 	{
 		StartCoroutine(WaitForMusicEnd());
@@ -83,6 +84,7 @@ public class PlayMap : MonoBehaviour
 				hitSound.Play();
 				notesOnScreen.Dequeue();
 				frontNote.DestroyNote();
+
 			}
 
 			else

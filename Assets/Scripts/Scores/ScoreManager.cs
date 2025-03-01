@@ -15,11 +15,12 @@ public class ScoreManager
     public void AddScore(int points)
     {
         _currentScore += points;
+        ScoreUI.Instance.UpdateScore(_currentScore.ToString());
         if (_currentScore > _maxScore)
         {
             _maxScore = _currentScore;
             _lastScoreDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
+            
         }
     }
 
