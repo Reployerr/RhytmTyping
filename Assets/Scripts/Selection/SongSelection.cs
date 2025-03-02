@@ -30,7 +30,8 @@ public class SongSelection : MonoBehaviour
         difficultyDropdown.AddOptions(new List<string> { "Easy", "Medium", "Hard", "Pro" });
         difficultyDropdown.value = 0;
     }
-    private void LoadSongs()
+
+    public void LoadSongs()
     {
         TextAsset[] jsonFiles = Resources.LoadAll<TextAsset>("Songs");
 

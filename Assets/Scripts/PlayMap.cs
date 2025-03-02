@@ -21,7 +21,9 @@ public class PlayMap : MonoBehaviour
 	[SerializeField] private float finishPosX;
 	[SerializeField] private float removeLine;
 	[SerializeField] private float posY;
-	[SerializeField] private float tolerationOffset;
+	[SerializeField] private float greenOffset;
+	[SerializeField] private float yellowOffset;
+	[SerializeField] private float redOffset;
 	[SerializeField] private float songOffset;
 	public float secondsPerBeat;
 	public float BeatsShownOnScreen = 4f;
@@ -42,8 +44,6 @@ public class PlayMap : MonoBehaviour
 
 	private void Start()
 	{
-		
-
 		_scoreManager = new ScoreManager();
 		notesOnScreen = new Queue<MusicNote>();
 
@@ -64,7 +64,10 @@ public class PlayMap : MonoBehaviour
 
 		if (!songStarted) return;
 
-		SpawnNote();
+		while(songStarted == true)
+        {
+			SpawnNote();
+		}
 
 	}
 	private void PlayerInputted()
@@ -78,19 +81,35 @@ public class PlayMap : MonoBehaviour
 
 			float offset = Mathf.Abs(frontNote.gameObject.transform.position.x - finishPosX);
 
-			if (offset <= tolerationOffset && pressedKey == frontNote.key)
+			if (pressedKey == frontNote.key) 
 			{
-				Debug.Log("HIT!");
-				_scoreManager.AddScore(100);
-				hitSound.Play();
-				notesOnScreen.Dequeue();
-				frontNote.DestroyNote();
+				bool hit = false; 
 
-			}
+				if (offset <= greenOffset)
+				{
+					Debug.Log("HIT! (GREEN)");
+					_scoreManager.AddScore(100);
+					hit = true;
+				}
+				else if (offset <= yellowOffset)
+				{
+					Debug.Log("YELLOW HIT!");
+					_scoreManager.AddScore(50);
+					hit = true;
+				}
+				else if (offset <= redOffset)
+				{
+					Debug.Log("RED HIT!");
+					_scoreManager.AddScore(20);
+					hit = true;
+				}
 
-			else
-			{
-				Debug.Log("Miss");
+				if (hit) 
+				{
+					hitSound.Play();
+					notesOnScreen.Dequeue();
+					frontNote.DestroyNote();
+				}
 			}
 
 		}
@@ -148,7 +167,7 @@ public class PlayMap : MonoBehaviour
 		{
 			MusicNote currNote = notesOnScreen.Peek();
 
-			if (currNote.transform.position.x <= finishPosX - tolerationOffset)
+			if (currNote.transform.position.x <= finishPosX - greenOffset)
 			{
 				Debug.Log("Miss!");
 				notesOnScreen.Dequeue();
@@ -159,8 +178,17 @@ public class PlayMap : MonoBehaviour
 
 	public void TestSave()
     {
+		Debug.Log("Музыка закончилась!");
 
-		
+		songStarted = false;
+		_audioSource.Stop();
+		songposition = 0;
+
+		int finalScore = _scoreManager.CurrentScore;
+		_scoreManager.SaveScore(_selectedMap);
+		Leaderboard.Instance.SaveScore(finalScore, _selectedMap);
+		ScoreUI.ShowFinalResult(finalScore.ToString());
+
 	}
 
 	IEnumerator WaitForMusicEnd()
@@ -168,6 +196,10 @@ public class PlayMap : MonoBehaviour
 		yield return new WaitUntil(() => !_audioSource.isPlaying);
 
 		Debug.Log("Музыка закончилась!");
+
+		songStarted = false;
+		_audioSource.Stop();
+		songposition = 0;
 
 		int finalScore = _scoreManager.CurrentScore;
 		_scoreManager.SaveScore(_selectedMap);

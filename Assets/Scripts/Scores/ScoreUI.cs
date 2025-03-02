@@ -7,7 +7,10 @@ public class ScoreUI : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _finalScore;
     [SerializeField] private Animator _animator;
+
     [SerializeField] private GameObject _selectionUI;
+    [SerializeField] private GameObject _finalUI;
+    [SerializeField] private GameObject _playUI;
 
     public static ScoreUI Instance;
     void Awake()
@@ -28,13 +31,14 @@ public class ScoreUI : MonoBehaviour
 
     public void ShowFinalResult(string finalResult)
     {
-        gameObject.SetActive(true);
+        _playUI.SetActive(false);
+        _finalUI.SetActive(true);
         _finalScore.text = finalResult;
     }
 
     public void BackToSelection()
     {
-        _selectionUI.SetActive(true);
-        gameObject.SetActive(false);
+        _finalUI.SetActive(false);
+        _selectionUI.SetActive(true); 
     }
 }
