@@ -53,8 +53,11 @@ public class PlayMap : MonoBehaviour
 			startDelay = songOffset;
 		}
 	}
-
-	private void Update()
+    private void OnEnable()
+    {
+        songStarted = false;
+	}
+    private void Update()
 	{
 
 		if (Input.anyKeyDown)
@@ -64,7 +67,7 @@ public class PlayMap : MonoBehaviour
 
 		if (!songStarted) return;
 
-		while(songStarted == true)
+		if(songStarted == true)
         {
 			SpawnNote();
 		}
@@ -188,7 +191,7 @@ public class PlayMap : MonoBehaviour
 		_scoreManager.SaveScore(_selectedMap);
 		Leaderboard.Instance.SaveScore(finalScore, _selectedMap);
 		ScoreUI.ShowFinalResult(finalScore.ToString());
-
+		//_scoreManager.ResetScore();
 	}
 
 	IEnumerator WaitForMusicEnd()

@@ -12,6 +12,7 @@ public class ScoreManager
     public int MaxScore => _maxScore;
     public string LastScoreDate => _lastScoreDate;
 
+
     public void AddScore(int points)
     {
         _currentScore += points;

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class ScoreUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _scoreText;
@@ -23,14 +25,10 @@ public class ScoreUI : MonoBehaviour
         _scoreText.text = score;
         PlayScoreAnimation();
    }
-
-   private void PlayScoreAnimation()
-   {
-        _animator.Play("GetScore");
-   }
-
     public void ShowFinalResult(string finalResult)
     {
+        ClearUI();
+
         _playUI.SetActive(false);
         _finalUI.SetActive(true);
         _finalScore.text = finalResult;
@@ -38,7 +36,17 @@ public class ScoreUI : MonoBehaviour
 
     public void BackToSelection()
     {
-        _finalUI.SetActive(false);
-        _selectionUI.SetActive(true); 
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+   private void PlayScoreAnimation()
+   {
+        _animator.Play("GetScore");
+   }
+
+    private void ClearUI()
+    {
+        _scoreText.text = "0";
     }
 }
