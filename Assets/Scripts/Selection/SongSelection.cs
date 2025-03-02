@@ -78,9 +78,23 @@ public class SongSelection : MonoBehaviour
             string difficultyFile = GetDifficultyFile();
             selectedKeys = LoadKeysFromJson(difficultyFile);
 
-            Debug.Log($"playing map: {selectedSongFolder}");
-            _game.InitializeMap(selectedSongFolder, _songData, selectedKeys);
+            float scoreMultiplier = GetScoreMultiplier();
+
+            Debug.Log($"playing map: {selectedSongFolder} with multiplier {scoreMultiplier}");
+            _game.InitializeMap(selectedSongFolder, _songData, selectedKeys, scoreMultiplier);
             _game.InputForStart();
+        }
+    }
+
+    private float GetScoreMultiplier()
+    {
+        switch (difficultyDropdown.value)
+        {
+            case 0: return 1f;  // Easy
+            case 1: return 1.5f; // Medium
+            case 2: return 2f;  // Hard
+            case 3: return 2.5f; // Pro (можно добавить для сложности)
+            default: return 1f;
         }
     }
 

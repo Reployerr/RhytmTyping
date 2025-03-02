@@ -15,6 +15,8 @@ public class PlayMap : MonoBehaviour
 	[SerializeField] private AudioSource hitSound;
 	[SerializeField] private GameObject musicNotePrefab;
 	[SerializeField] private ScoreUI ScoreUI;
+	[SerializeField] private float ScoreX;
+	[SerializeField] private float ScoreCombo;
 
 	[Header("Notes parameters")]
 	[SerializeField] private float startPosX;
@@ -25,6 +27,7 @@ public class PlayMap : MonoBehaviour
 	[SerializeField] private float yellowOffset;
 	[SerializeField] private float redOffset;
 	[SerializeField] private float songOffset;
+
 	public float secondsPerBeat;
 	public float BeatsShownOnScreen = 4f;
 	private Queue<MusicNote> notesOnScreen;
@@ -84,30 +87,30 @@ public class PlayMap : MonoBehaviour
 
 			float offset = Mathf.Abs(frontNote.gameObject.transform.position.x - finishPosX);
 
-			if (pressedKey == frontNote.key) 
+			if (pressedKey == frontNote.key)
 			{
-				bool hit = false; 
+				bool hit = false;
 
 				if (offset <= greenOffset)
 				{
 					Debug.Log("HIT! (GREEN)");
-					_scoreManager.AddScore(100);
+					_scoreManager.AddScore(Mathf.RoundToInt(100 * ScoreX)); 
 					hit = true;
 				}
 				else if (offset <= yellowOffset)
 				{
 					Debug.Log("YELLOW HIT!");
-					_scoreManager.AddScore(50);
+					_scoreManager.AddScore(Mathf.RoundToInt(50 * ScoreX));
 					hit = true;
 				}
 				else if (offset <= redOffset)
 				{
 					Debug.Log("RED HIT!");
-					_scoreManager.AddScore(20);
+					_scoreManager.AddScore(Mathf.RoundToInt(20 * ScoreX));
 					hit = true;
 				}
 
-				if (hit) 
+				if (hit)
 				{
 					hitSound.Play();
 					notesOnScreen.Dequeue();
@@ -117,14 +120,16 @@ public class PlayMap : MonoBehaviour
 
 		}
 	}
-	public void InitializeMap(string map, SongData songData, List<string> keys)
+	public void InitializeMap(string map, SongData songData, List<string> keys, float scoreMultiplier)
 	{
 		_selectedMap = map;
 		_songData = songData;
 		_notes = _songData.notes;
 		_mapSong = Resources.Load<AudioClip>($"Songs/{_selectedMap}/{_songData.audioFile}");
 		_scoreManager.LoadScore(_selectedMap);
-		availableKeys = keys; // loading keys list
+		availableKeys = keys;
+
+		ScoreX = scoreMultiplier;
 
 		_audioSource.clip = _mapSong;
 		track = _notes.ConvertAll(note => note.time).ToArray();
@@ -181,7 +186,7 @@ public class PlayMap : MonoBehaviour
 
 	public void TestSave()
     {
-		Debug.Log("Музыка закончилась!");
+		Debug.Log("Music stop!");
 
 		songStarted = false;
 		_audioSource.Stop();
