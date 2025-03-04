@@ -4960,7 +4960,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7812091499041340677}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999595
+  m_Size: 0.99751204
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5750,7 +5750,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: -0.000008441765}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0.0027124896}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &4862411729910574341
@@ -6954,6 +6954,8 @@ MonoBehaviour:
   hitSound: {fileID: 884786678}
   musicNotePrefab: {fileID: 4124568982860103622, guid: bdca79be7d7943043a50c656ecdf4494, type: 3}
   ScoreUI: {fileID: 2086016362}
+  ScoreX: 0
+  ScoreCombo: 0
   startPosX: 22.9
   finishPosX: -4.92
   removeLine: -8.01

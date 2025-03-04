@@ -1,0 +1,48 @@
+{
+  "songName": "test",
+  "artist": "test",
+  "audioFile": "untitled",
+  "bpm": 0,
+  "coverImage": "cover",
+  "notes": [
+    {
+      "time": 0.0
+    },
+    {
+      "time": 0.49
+    },
+    {
+      "time": 0.966
+    },
+    {
+      "time": 1.361
+    },
+    {
+      "time": 1.486
+    },
+    {
+      "time": 1.731
+    },
+    {
+      "time": 1.962
+    },
+    {
+      "time": 2.471
+    },
+    {
+      "time": 2.947
+    },
+    {
+      "time": 3.298
+    },
+    {
+      "time": 3.423
+    },
+    {
+      "time": 3.683
+    },
+    {
+      "time": 3.923
+    }
+  ]
+}

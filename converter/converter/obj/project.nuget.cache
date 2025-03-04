@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "FgYO/cz7h8AGQDGDj2a04ZNd7333vx6cNE1K9GAVVFknarncwHV2Qxn//8tfAfUl+R29wFm6T7kpgt7qn9NS9Q==",
+  "success": true,
+  "projectFilePath": "D:\\Unity\\RhytmTyping\\converter\\converter\\converter.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kerel\\.nuget\\packages\\melanchall.drywetmidi\\7.2.0\\melanchall.drywetmidi.7.2.0.nupkg.sha512",
+    "C:\\Users\\kerel\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
