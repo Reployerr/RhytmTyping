@@ -17,16 +17,16 @@ public class RhythmMapEditor : MonoBehaviour
     [SerializeField] private TMP_Text TimeLineText;
 
     [Header("NoteTimeLine")]
-    [SerializeField] private RectTransform noteTimeline; // Линия таймлайна
-    [SerializeField] private RectTransform noteContainer; // Контейнер для нот
-    [SerializeField] private GameObject noteMarkerPrefab; // Префаб кружочка
+    [SerializeField] private RectTransform noteTimeline; 
+    [SerializeField] private RectTransform noteContainer; 
+    [SerializeField] private GameObject noteMarkerPrefab; 
 
     private List<float> notes = new List<float>();
     private bool isRecording = false;
     private float timelineScrollSpeed = 100f;
 
-    private float lastNotePosition = 0f; // Переменная для отслеживания позиции предыдущей ноты
-    [SerializeField] private float noteSpacing = 1f; // Расстояние между нотами
+    private float lastNotePosition = 0f; 
+    [SerializeField] private float noteSpacing = 1f; 
 
     private void Start()
     {
@@ -49,7 +49,6 @@ public class RhythmMapEditor : MonoBehaviour
         {
             float noteTime = audioSource.time * 1000;
             notes.Add(noteTime);
-            Debug.Log($"Нота добавлена: {noteTime} мс");
             SpawnNoteMarker(noteTime);
             SpawnNote(noteTime);
         }
@@ -59,12 +58,12 @@ public class RhythmMapEditor : MonoBehaviour
     {
         if (audioSource.isPlaying)
         {
-            audioSource.Pause(); // Ставит на паузу
+            audioSource.Pause();
             isRecording = false;
         }
         else
         {
-            audioSource.Play(); // Возобновляет с текущего места
+            audioSource.Play();
             isRecording = true;
         }
     }
@@ -82,16 +81,12 @@ public class RhythmMapEditor : MonoBehaviour
 
     private void SpawnNote(float time)
     {
-        // Если это не первая нота, добавляем смещение от предыдущей
         float spawnPosition = lastNotePosition + noteSpacing;
 
         GameObject note = Instantiate(notePrefab, notesContainer);
         note.GetComponentInChildren<Text>().text = time.ToString("F0") + " ms";
-
-        // Сохраняем текущую позицию ноты для следующей
         lastNotePosition = spawnPosition;
 
-        // Примените spawnPosition, если нужно, для позиционирования ноты в пространстве
         note.GetComponent<RectTransform>().anchoredPosition = new Vector2(spawnPosition, note.GetComponent<RectTransform>().anchoredPosition.y);
     }
 
@@ -99,12 +94,10 @@ public class RhythmMapEditor : MonoBehaviour
     {
         string path = Path.Combine(Application.persistentDataPath, "notes.json");
         File.WriteAllText(path, JsonUtility.ToJson(new NoteData(notes)));
-        Debug.Log("Сохранено: " + path);
     }
 
     private void SpawnNoteMarker(float noteTime)
     {
-        Debug.Log("SpawnNoteMarker вызвался");
         float timelineWidth = noteTimeline.rect.width;
         float songDurationMs = audioSource.clip.length * 1000;
         float normalizedTime = noteTime / songDurationMs;
